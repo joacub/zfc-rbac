@@ -26,11 +26,8 @@
     "doctrine/doctrine-module": "if you want to use Doctrine role provider"
   },
   "autoload": {
-    "psr-4": {
+    "psr-0": {
       "ZfjRbac\\": "src/"
-    },
-    "classmap": [
-      "./Module.php"
-    ]
+    }
   }
 }
