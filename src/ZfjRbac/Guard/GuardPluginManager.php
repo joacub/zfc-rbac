@@ -46,7 +46,7 @@ class GuardPluginManager extends AbstractPluginManager
     /**
      * {@inheritDoc}
      */
-    public function validatePlugin($plugin)
+    public function validate($plugin)
     {
         if ($plugin instanceof GuardInterface) {
             return; // we're okay
@@ -58,33 +58,4 @@ class GuardPluginManager extends AbstractPluginManager
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function canonicalizeName($name)
-    {
-        return $name;
-    }
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $serviceLocator;
-
-    /**
-     * @return ContainerInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
-
-
-    /**
-     * @param ContainerInterface $serviceLocator
-     */
-    public function setServiceLocator($serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-    }
 }

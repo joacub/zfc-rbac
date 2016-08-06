@@ -47,11 +47,6 @@ class RoleService
     protected $roleProvider;
 
     /**
-     * @var TraversalStrategyInterface
-     */
-    protected $traversalStrategy;
-
-    /**
      * @var string
      */
     protected $guestRole = '';
@@ -65,12 +60,10 @@ class RoleService
      */
     public function __construct(
         IdentityProviderInterface $identityProvider,
-        RoleProviderInterface $roleProvider,
-        TraversalStrategyInterface $traversalStrategy
+        RoleProviderInterface $roleProvider
     ) {
         $this->identityProvider  = $identityProvider;
         $this->roleProvider      = $roleProvider;
-        $this->traversalStrategy = $traversalStrategy;
     }
 
     /**

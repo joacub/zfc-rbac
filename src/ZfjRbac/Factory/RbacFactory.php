@@ -18,11 +18,9 @@
 
 namespace ZfjRbac\Factory;
 
+use Interop\Container\ContainerInterface;
 use Rbac\Rbac;
-use Rbac\Traversal\Strategy\GeneratorStrategy;
-use Rbac\Traversal\Strategy\RecursiveRoleIteratorStrategy;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * @author  Michaël Gallego <mic.gallego@gmail.com>
@@ -31,16 +29,20 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class RbacFactory implements FactoryInterface
 {
     /**
-     * {@inheritDoc}
+     * Create an object
+     *
+     * @param  ContainerInterface $container
+     * @param  string             $requestedName
+     * @param  null|array         $options
+     *
+     * @return object
+     * @throws ServiceNotFoundException if unable to resolve the service.
+     * @throws ServiceNotCreatedException if an exception is raised when
+     *     creating a service.
+     * @throws ContainerException if any other error occurs
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
-            $traversalStrategy = new GeneratorStrategy();
-        } else {
-            $traversalStrategy = new RecursiveRoleIteratorStrategy();
-        }
-
-        return new Rbac($traversalStrategy);
+        return new Rbac();
     }
 }

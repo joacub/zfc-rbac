@@ -18,8 +18,6 @@
 
 namespace ZfjRbac\Permission;
 
-use Rbac\Permission\PermissionInterface as BasePermissionInterface;
-
 /**
  * Interface that permissions must implement to be used with the AuthorizationService
  *
@@ -29,6 +27,6 @@ use Rbac\Permission\PermissionInterface as BasePermissionInterface;
  * @author  Michaël Gallego <mic.gallego@gmail.com>
  * @license MIT
  */
-interface PermissionInterface extends BasePermissionInterface
+interface PermissionInterface
 {
 }

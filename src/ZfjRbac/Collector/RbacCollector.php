@@ -20,7 +20,6 @@ namespace ZfjRbac\Collector;
 
 use Rbac\Role\HierarchicalRoleInterface;
 use Rbac\Role\RoleInterface;
-use Rbac\Traversal\RecursiveRoleIterator;
 use RecursiveIteratorIterator;
 use ReflectionProperty;
 use Serializable;
@@ -155,7 +154,7 @@ class RbacCollector implements CollectorInterface, Serializable
                 $this->collectedRoles[] = $roleName;
             } else {
                 $iteratorIterator = new RecursiveIteratorIterator(
-                    new RecursiveRoleIterator($role->getChildren()),
+                    new \RecursiveArrayIterator($role->getChildren()),
                     RecursiveIteratorIterator::SELF_FIRST
                 );
 

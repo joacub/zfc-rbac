@@ -59,13 +59,11 @@ class RouteGuardFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $parentLocator = $container->getServiceLocator();
-
         /* @var \ZfjRbac\Options\ModuleOptions $moduleOptions */
-        $moduleOptions = $parentLocator->get('ZfjRbac\Options\ModuleOptions');
+        $moduleOptions = $container->get('ZfjRbac\Options\ModuleOptions');
 
         /* @var \ZfjRbac\Service\RoleService $roleService */
-        $roleService = $parentLocator->get('ZfjRbac\Service\RoleService');
+        $roleService = $container->get('ZfjRbac\Service\RoleService');
 
         $routeGuard = new RouteGuard($roleService, $this->options);
         $routeGuard->setProtectionPolicy($moduleOptions->getProtectionPolicy());

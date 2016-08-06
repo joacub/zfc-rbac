@@ -45,7 +45,7 @@ class RoleProviderPluginManager extends AbstractPluginManager
     /**
      * {@inheritDoc}
      */
-    public function validatePlugin($plugin)
+    public function validate($plugin)
     {
         if ($plugin instanceof RoleProviderInterface) {
             return; // we're okay
@@ -57,15 +57,4 @@ class RoleProviderPluginManager extends AbstractPluginManager
         ));
     }
 
-    protected $serviceLocator;
-
-    public function setServiceLocator(ContainerInterface $container)
-    {
-        $this->serviceLocator = $container;
-    }
-
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
 }

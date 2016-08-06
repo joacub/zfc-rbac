@@ -18,6 +18,7 @@
 
 namespace ZfjRbac;
 
+use Tracy\Debugger;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -45,7 +46,7 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
 
         // Register listeners, if any
         foreach ($guards as $guard) {
-            $eventManager->attachAggregate($guard);
+            $guard->attach($eventManager);
         }
     }
 
