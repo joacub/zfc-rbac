@@ -1,5 +1,5 @@
 {
-  "name": "zf-commons/zfj-rbac",
+  "name": "joacub/zfj-rbac",
   "description": "Zend Framework 3 Module that provides a layer of features of Zend\\Permissions\\Rbac",
   "type": "library",
   "license": "MIT",
