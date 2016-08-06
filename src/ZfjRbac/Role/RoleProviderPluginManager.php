@@ -18,8 +18,11 @@
 
 namespace ZfjRbac\Role;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\Factory\InvokableFactory;
 use ZfjRbac\Exception;
+use ZfjRbac\Factory\ObjectRepositoryRoleProviderFactory;
 
 /**
  * Plugin manager to create role providers
@@ -34,15 +37,9 @@ class RoleProviderPluginManager extends AbstractPluginManager
     /**
      * @var array
      */
-    protected $invokableClasses = [
-        'ZfjRbac\Role\InMemoryRoleProvider' => 'ZfjRbac\Role\InMemoryRoleProvider'
-    ];
-
-    /**
-     * @var array
-     */
     protected $factories = [
-        'ZfjRbac\Role\ObjectRepositoryRoleProvider' => 'ZfjRbac\Factory\ObjectRepositoryRoleProviderFactory'
+        InMemoryRoleProvider::class         => InvokableFactory::class,
+        ObjectRepositoryRoleProvider::class => ObjectRepositoryRoleProviderFactory::class
     ];
 
     /**
@@ -55,16 +52,20 @@ class RoleProviderPluginManager extends AbstractPluginManager
         }
 
         throw new Exception\RuntimeException(sprintf(
-            'Role provider must implement "ZfjRbac\Role\RoleProviderInterface", but "%s" was given',
+            'Role provider must implement "ZfcRbac\Role\RoleProviderInterface", but "%s" was given',
             is_object($plugin) ? get_class($plugin) : gettype($plugin)
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function canonicalizeName($name)
+    protected $serviceLocator;
+
+    public function setServiceLocator(ContainerInterface $container)
     {
-        return $name;
+        $this->serviceLocator = $container;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
     }
 }

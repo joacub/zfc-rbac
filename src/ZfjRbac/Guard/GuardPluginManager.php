@@ -18,6 +18,7 @@
 
 namespace ZfjRbac\Guard;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use ZfjRbac\Exception;
 
@@ -63,5 +64,27 @@ class GuardPluginManager extends AbstractPluginManager
     protected function canonicalizeName($name)
     {
         return $name;
+    }
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * @return ContainerInterface
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+
+    /**
+     * @param ContainerInterface $serviceLocator
+     */
+    public function setServiceLocator($serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
     }
 }
