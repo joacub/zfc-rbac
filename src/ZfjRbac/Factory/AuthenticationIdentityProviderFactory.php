@@ -18,7 +18,8 @@
 
 namespace ZfjRbac\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfjRbac\Identity\AuthenticationIdentityProvider;
 
@@ -31,13 +32,21 @@ use ZfjRbac\Identity\AuthenticationIdentityProvider;
 class AuthenticationIdentityProviderFactory implements FactoryInterface
 {
     /**
-     * {@inheritDoc}
-     * @return AuthenticationIdentityProvider
+     * Create an object
+     *
+     * @param  ContainerInterface $container
+     * @param  string             $requestedName
+     * @param  null|array         $options
+     * @return object
+     * @throws ServiceNotFoundException if unable to resolve the service.
+     * @throws ServiceNotCreatedException if an exception is raised when
+     *     creating a service.
+     * @throws ContainerException if any other error occurs
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /* @var \Zend\Authentication\AuthenticationService $authenticationProvider */
-        $authenticationProvider = $serviceLocator->get('Zend\Authentication\AuthenticationService');
+        $authenticationProvider = $container->get('Zend\Authentication\AuthenticationService');
 
         return new AuthenticationIdentityProvider($authenticationProvider);
     }

@@ -18,8 +18,9 @@
 
 namespace ZfjRbac\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\MutableCreationOptionsInterface;
+use Interop\Container\ContainerInterface;
+use Tracy\Debugger;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfjRbac\Guard\RouteGuard;
 
@@ -29,7 +30,7 @@ use ZfjRbac\Guard\RouteGuard;
  * @author  Michaël Gallego <mic.gallego@gmail.com>
  * @license MIT
  */
-class RouteGuardFactory implements FactoryInterface, MutableCreationOptionsInterface
+class RouteGuardFactory implements FactoryInterface
 {
     /**
      * @var array
@@ -45,12 +46,20 @@ class RouteGuardFactory implements FactoryInterface, MutableCreationOptionsInter
     }
 
     /**
-     * {@inheritDoc}
-     * @return RouteGuard
+     * Create an object
+     *
+     * @param  ContainerInterface $container
+     * @param  string             $requestedName
+     * @param  null|array         $options
+     * @return object
+     * @throws ServiceNotFoundException if unable to resolve the service.
+     * @throws ServiceNotCreatedException if an exception is raised when
+     *     creating a service.
+     * @throws ContainerException if any other error occurs
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $parentLocator = $serviceLocator->getServiceLocator();
+        $parentLocator = $container->getServiceLocator();
 
         /* @var \ZfjRbac\Options\ModuleOptions $moduleOptions */
         $moduleOptions = $parentLocator->get('ZfjRbac\Options\ModuleOptions');
