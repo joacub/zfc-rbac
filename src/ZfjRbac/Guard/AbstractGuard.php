@@ -67,12 +67,15 @@ abstract class AbstractGuard implements GuardInterface
             'You are not authorized to access this resource',
             403
         ));
+        $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
 
         $event->stopPropagation(true);
 
         $application  = $event->getApplication();
         $eventManager = $application->getEventManager();
 
-        $eventManager->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
+//        $eventManager->setEventPrototype($event);
+
+        $eventManager->triggerEvent($event);
     }
 }

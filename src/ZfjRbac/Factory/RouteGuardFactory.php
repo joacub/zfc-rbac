@@ -61,6 +61,7 @@ class RouteGuardFactory implements FactoryInterface
     {
         /* @var \ZfjRbac\Options\ModuleOptions $moduleOptions */
         $moduleOptions = $container->get('ZfjRbac\Options\ModuleOptions');
+        $this->setCreationOptions($options);
 
         /* @var \ZfjRbac\Service\RoleService $roleService */
         $roleService = $container->get('ZfjRbac\Service\RoleService');

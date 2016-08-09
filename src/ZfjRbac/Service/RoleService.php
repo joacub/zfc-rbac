@@ -21,6 +21,7 @@ namespace ZfjRbac\Service;
 use Rbac\Role\HierarchicalRoleInterface;
 use Rbac\Role\RoleInterface;
 use RecursiveIteratorIterator;
+use Tracy\Debugger;
 use Traversable;
 use ZfjRbac\Exception;
 use ZfjRbac\Identity\IdentityInterface;
@@ -210,15 +211,33 @@ class RoleService
      * @param  array|RoleInterface[] $roles
      * @return string[]
      */
-    protected function flattenRoles(array $roles)
+    protected function flattenRoles($roles)
     {
         $roleNames = [];
-        $iterator  = $this->traversalStrategy->getRolesIterator($roles);
+        $iterator  = $this->_flattenRoles($roles);
 
         foreach ($iterator as $role) {
             $roleNames[] = $role->getName();
         }
 
         return array_unique($roleNames);
+    }
+
+    /**
+     * @param  RoleInterface[]|Traversable $roles
+     * @return Generator
+     */
+    protected function _flattenRoles($roles)
+    {
+        foreach ($roles as $role) {
+            yield $role;
+            if (!$role instanceof HierarchicalRoleInterface) {
+                continue;
+            }
+            $children = $this->flattenRoles($role->getChildren());
+            foreach ($children as $child) {
+                yield $child;
+            }
+        }
     }
 }

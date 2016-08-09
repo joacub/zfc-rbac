@@ -18,6 +18,7 @@
 
 namespace ZfjRbac\Guard;
 
+use Tracy\Debugger;
 use Zend\Mvc\MvcEvent;
 use ZfjRbac\Exception;
 use ZfjRbac\Service\RoleService;
