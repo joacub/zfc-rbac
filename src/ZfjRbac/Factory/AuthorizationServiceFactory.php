@@ -18,7 +18,11 @@
 
 namespace ZfjRbac\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
+use Interop\Container\ContainerInterface;
+use Interop\Container\Exception\ContainerException;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfjRbac\Service\AuthorizationService;
 
@@ -30,27 +34,26 @@ use ZfjRbac\Service\AuthorizationService;
  */
 class AuthorizationServiceFactory implements FactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     * @return AuthorizationService
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /* @var \Rbac\Rbac $rbac */
-        $rbac = $serviceLocator->get('Rbac\Rbac');
+        $rbac = $container->get('Rbac\Rbac');
 
         /* @var \ZfjRbac\Service\RoleService $roleService */
-        $roleService = $serviceLocator->get('ZfjRbac\Service\RoleService');
+        $roleService = $container->get('ZfjRbac\Service\RoleService');
 
         /* @var \ZfjRbac\Assertion\AssertionPluginManager $assertionPluginManager */
-        $assertionPluginManager = $serviceLocator->get('ZfjRbac\Assertion\AssertionPluginManager');
+        $assertionPluginManager = $container->get('ZfjRbac\Assertion\AssertionPluginManager');
 
         /* @var \ZfjRbac\Options\ModuleOptions $moduleOptions */
-        $moduleOptions = $serviceLocator->get('ZfjRbac\Options\ModuleOptions');
+        $moduleOptions = $container->get('ZfjRbac\Options\ModuleOptions');
 
         $authorizationService = new AuthorizationService($rbac, $roleService, $assertionPluginManager);
         $authorizationService->setAssertions($moduleOptions->getAssertionMap());
 
         return $authorizationService;
     }
+
+
 }
