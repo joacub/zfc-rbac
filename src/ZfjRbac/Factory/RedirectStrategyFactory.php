@@ -18,7 +18,11 @@
 
 namespace ZfjRbac\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
+use Interop\Container\ContainerInterface;
+use Interop\Container\Exception\ContainerException;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfjRbac\View\Strategy\RedirectStrategy;
 
@@ -30,16 +34,19 @@ use ZfjRbac\View\Strategy\RedirectStrategy;
  */
 class RedirectStrategyFactory implements FactoryInterface
 {
+
     /**
      * {@inheritDoc}
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /* @var \ZfjRbac\Options\ModuleOptions $moduleOptions */
-        $moduleOptions = $serviceLocator->get('ZfjRbac\Options\ModuleOptions');
+        $moduleOptions = $container->get('ZfjRbac\Options\ModuleOptions');
         /** @var \Zend\Authentication\AuthenticationService $authenticationService */
-        $authenticationService = $serviceLocator->get('Zend\Authentication\AuthenticationService');
+        $authenticationService = $container->get('Zend\Authentication\AuthenticationService');
 
         return new RedirectStrategy($moduleOptions->getRedirectStrategy(), $authenticationService);
     }
+
+
 }
