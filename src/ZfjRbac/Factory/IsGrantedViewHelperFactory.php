@@ -18,6 +18,7 @@
 
 namespace ZfjRbac\Factory;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfjRbac\View\Helper\IsGranted;
@@ -37,8 +38,13 @@ class IsGrantedViewHelperFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var \ZfjRbac\Service\AuthorizationService $authorizationService */
-        $authorizationService = $serviceLocator->getServiceLocator()->get('ZfjRbac\Service\AuthorizationService');
+        $authorizationService = $serviceLocator->get('ZfjRbac\Service\AuthorizationService');
 
         return new IsGranted($authorizationService);
+    }
+
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        return $this->createService($container);
     }
 }
